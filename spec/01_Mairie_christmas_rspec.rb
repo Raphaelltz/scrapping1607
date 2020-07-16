@@ -1,0 +1,1 @@
+require_relative '../lib/01_Mairie_christmas.rb'
