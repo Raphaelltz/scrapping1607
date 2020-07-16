@@ -5,26 +5,59 @@ require 'pry'
 require 'rubygems'
 require 'nokogiri'   
 require 'open-uri'
-require 'httparty'
-require 'byebug'
 
 
 
-def scraper 
-	url = "https://coinmarketcap.com/"
-	unparsed_page = HTTParty.get(url)
-	parsed_page = Nokogiri::HTML(unparsed_page)
-	cryptos_listings = parsed_page.css('tr.cmc-table-row')
-	cryptos_listings.each do |crypto_listings|
-		crypto = {
-			name: crypto_listings.css('a.cmc-link').text
-			}
-		byebug
-	end
+#On récupère l'HTML de la page.
+def html_page 
+	page = Nokogiri::HTML(URI.open("https://coinmarketcap.com/all/views/all/"))
+	return page
 end 
 
-scraper 
+
+#On repère les balises permettant d'identifier la partie "Nom des monnaies" + "valeur" 
+
+def get_hash
+page = html_page
+	names = page.xpath("/html/body/div[1]/div[1]/div[2]/div[1]/div[2]/div/div[2]/div[3]/div/table/tbody/tr/td[3]/div
+") 
+	values = page.xpath("/html/body/div[1]/div[1]/div[2]/div[1]/div[2]/div/div[2]/div[3]/div/table/tbody/tr/td[5]/a
+")
 
 
+
+#Je dégage les indices et les valeurs de la ligne de code. 
+names_list = Array.new
+names.each do |i|
+	names_list << i.text
+end 
+
+values_list = Array.new
+values.each do |i|
+	values_list << i.text[1..-1]
+end 
+
+
+
+
+#Mettre dans un tableau mes deux listes
+board = Hash.new
+names_list.zip(values_list){|k,v|board[k] = v}
+
+
+puts board
+
+end
+get_hash
+
+
+
+
+
+
+
+#Tout mettre dans un tableau
+
+	
 
 
