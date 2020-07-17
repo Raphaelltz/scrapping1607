@@ -18,8 +18,8 @@ end
 #On repère les balises permettant d'identifier la partie "Nom des monnaies" + "valeur" 
 
 def get_hash
-page = html_page
-	names = page.xpath("/html/body/div[1]/div[1]/div[2]/div[1]/div[2]/div/div[2]/div[3]/div/table/tbody/tr/td[3]/div
+	 page = html_page 	
+	 names = page.xpath("/html/body/div[1]/div[1]/div[2]/div[1]/div[2]/div/div[2]/div[3]/div/table/tbody/tr/td[3]/div
 ") 
 	values = page.xpath("/html/body/div[1]/div[1]/div[2]/div[1]/div[2]/div/div[2]/div[3]/div/table/tbody/tr/td[5]/a
 ")
@@ -45,18 +45,14 @@ board = Hash.new
 names_list.zip(values_list){|k,v|board[k] = v}
 
 
-puts board
+#séparer la liste pour avoir chaque indice avec sa valeur dans un array. 
+final_list = board.each_slice(1).map(&:to_h)
+puts final_list
+return final_list # attention: nécessaire pur "sortir" final_list. Qu'un return par def pcq ça stoppe la fonction. 
 
-end
+end 
+
 get_hash
-
-
-
-
-
-
-
-#Tout mettre dans un tableau
 
 	
 
